@@ -101,7 +101,7 @@ function viewRoles() {
         if (err) throw err;
 
         console.table(res);
-        console.log("Departments")
+        console.log("Roles")
         
     start();
     
@@ -120,7 +120,7 @@ function viewEmployees() {
         if (err) throw err;
 
         console.table(res);
-        console.log("Departments")
+        console.log("Employees")
         
     start();
     
@@ -148,6 +148,7 @@ function addDepartment() {
             
             if (err) throw err;
             console.table(res);
+            console.log("Department Added");
 
             start();
 
@@ -190,6 +191,7 @@ function addRole() {
             
             if (err) throw err;
             console.table(res);
+            console.log("Role Added");
 
             start();
 
@@ -231,6 +233,7 @@ function addEmployee() {
             
             if (err) throw err;
             console.table(res);
+            console.log("Employee Added");
 
             start();
 
@@ -238,4 +241,76 @@ function addEmployee() {
     })
 }
 
+function updateEmployee() {
 
+    var query = `SELECT * FROM employee`;
+
+    connect.query(query, function (err, res) {
+        if (err) throw err;
+        console.table(res);
+
+    const employees = res.map(({ id, first_name, last_name }) => ({
+        ID: id, name: `${first_name} ${last_name}`
+    
+    }));
+
+    // console.log(employees);
+    updateRole(employees);
+
+    })   
+
+}
+
+function updateRole(employees) {
+
+    var query = `SELECT * FROM role`;
+
+    connect.query(query, function (err, res) {
+        if (err) throw err;
+        console.table(res);
+    
+    const roles = res.map(({ id, title, salary }) => ({
+            ID: id, title: `${title}`, salary: `${salary}`
+
+    }));
+
+    // console.log("roles", roles);
+    promptUpdate(employees, roles);
+
+    })
+
+}
+
+function promptUpdate(employees, roles) {
+
+    
+    inquirer.prompt([
+        {
+            type: "list",
+            name: "employee",
+            message: "Which employee's role do you want to update?",
+            choices: employees
+        },
+        {
+            type: "list",
+            name: "role",
+            message: "What is the employee's new role?",
+            choices: roles
+        }  
+    ]).then(function (answer) {
+
+        var query = `UPDATE employee SET role_id = ? WHERE id = ?`
+
+        connect.query(query,
+            [
+                answer.role, answer.employee
+            ],
+            function (err, res) {
+                if (err) throw err;
+                console.table(res);
+            })
+
+        start()
+
+    })
+}
