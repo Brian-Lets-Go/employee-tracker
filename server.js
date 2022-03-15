@@ -93,9 +93,9 @@ function viewDepartments() {
 
 function viewRoles() {
     
-    var query = `SELECT * FROM role
+    var query = `SELECT * FROM roles
                     LEFT JOIN department
-                    ON role.department_id = department.id`;
+                    ON department_id = department.id`;
 
     connect.query(query, function (err, res) {
         if (err) throw err;
@@ -111,10 +111,10 @@ function viewRoles() {
 function viewEmployees() {
 
     var query = `SELECT * FROM employee
-                    LEFT JOIN role
-                    ON employee.role_id = role.id
+                    LEFT JOIN roles
+                    ON employee.role_id = roles.id
                     LEFT JOIN department
-                    ON department.id = role.department_id`;
+                    ON department.id = roles.department_id`;
 
     connect.query(query, function (err, res) {
         if (err) throw err;
@@ -177,7 +177,7 @@ function addRole() {
 
     ]).then(function (answer) {
         
-        var query = `INSERT INTO role SET ?`
+        var query = `INSERT INTO roles SET ?`
 
         connect.query(query,
 
@@ -263,7 +263,7 @@ function updateEmployee() {
 
 function updateRole(employees) {
 
-    var query = `SELECT * FROM role`;
+    var query = `SELECT * FROM roles`;
 
     connect.query(query, function (err, res) {
         if (err) throw err;

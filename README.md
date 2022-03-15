@@ -17,6 +17,8 @@
 
   ![Screenshot](assets\screenshot.JPG)
 
+  [Walkthrough Video](https://www.youtube.com/watch?v=Eb-Rb-qwejg)
+
   ## [Installation](#table-of-contents)
   Once the repo is cloned, run npm install to install the dependencies. Dependencies include mysql2, inquirer and console.table. Additionally, you will need to update you mysql password in the server.js file in order to connect to mysql.
 
