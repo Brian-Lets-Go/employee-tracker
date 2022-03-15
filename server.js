@@ -22,7 +22,7 @@ connect.connect(err => {
 
 
 function start() {
-    console.log("STARTED!");
+    // console.log("STARTED!");
 
     inquirer.prompt({
       type: "list",
@@ -250,7 +250,7 @@ function updateEmployee() {
         console.table(res);
 
     const employees = res.map(({ id, first_name, last_name }) => ({
-        ID: id, name: `${first_name} ${last_name}`
+        value: id, name: `${first_name} ${last_name}`
     
     }));
 
@@ -269,12 +269,11 @@ function updateRole(employees) {
         if (err) throw err;
         console.table(res);
     
-    const roles = res.map(({ id, title, salary }) => ({
-            ID: id, title: `${title}`, salary: `${salary}`
+    const roles = res.map(({ id, title }) => ({
+        value: id, name: `${title}`
 
     }));
 
-    // console.log("roles", roles);
     promptUpdate(employees, roles);
 
     })
@@ -283,12 +282,11 @@ function updateRole(employees) {
 
 function promptUpdate(employees, roles) {
 
-    
     inquirer.prompt([
         {
             type: "list",
             name: "employee",
-            message: "Which employee's role do you want to update?",
+            message: "Which employee do you want to update?",
             choices: employees
         },
         {
